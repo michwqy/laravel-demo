@@ -177,7 +177,7 @@ class InfoController extends Controller
     {
         if(Auth::check()){
             $user=Auth::user();
-            if($user->type==0){
+            if($user->type==1){
                 
                 $users = DB::select('select * from users where email = ?', [$user->email]);
                 $user=$users[0];
