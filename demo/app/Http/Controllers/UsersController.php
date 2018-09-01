@@ -17,32 +17,35 @@ class UsersController extends Controller
 {
   
     public function store(Request $request)
-    {
+    {   
         $this->validate($request, [
             'name' => 'required|unique:users|max:50',
             'email' => 'required|email|unique:users|max:255',
             'password' => 'required|min:6'
         ]);
-
+  
          $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => bcrypt($request->password),
         ]);
-        
+ 
         $time=date("ymd");
         $text=$user->email.' '.$time;
         $token=encrypt($text);
-        //$token=$text;
+
         $mailto=$user->email;  //收件人
         $subject="欢迎注册，请激活您的账号"; //邮件主题
         $body="亲爱的"  .$user->name. "：<br/>感谢您在我站注册了新帐号。<br/>请点击链接激活您的帐号。<br/>
         <a href='http://localhost:8000/active?token="  .$token . "' target='_blank'>'http://localhost：8000/active.php?token="  .$token . "'</a>
         <br/>如果以上链接无法点击，请将它复制到你的浏览器地址栏中进入访问，该链接24小时内有效。<br/>如果此次激活请求非你本人所发，请忽略本邮件。<br/>";  //邮件内容
         $this->sendmailto($mailto,$subject,$body);
-  
-
+        
+           
+       
+         
         return redirect()->route('login');
+       
     }
 
     public function show(Request $request)
@@ -71,12 +74,12 @@ class UsersController extends Controller
     }
 
     function sendmailto($mailto, $mailsub, $mailbd){
-        $smtpserver     = "smtp.sina.com"; //SMTP服务器
+        $smtpserver     = "smtp.163.com"; //SMTP服务器
         $smtpserverport = 25; //SMTP服务器端口
-        $smtpusermail   = "michwqy2@sina.com"; //SMTP服务器的用户邮箱
+        $smtpusermail   = "michwqy@163.com"; //SMTP服务器的用户邮箱
         $smtpemailto    = $mailto;
-        $smtpuser       = "michwqy2@sina.com"; //SMTP服务器的用户帐号
-        $smtppass       = "michwqy1998"; //SMTP服务器的用户密码
+        $smtpuser       = "michwqy@163.com"; //SMTP服务器的用户帐号
+        $smtppass       = "abc123"; //SMTP服务器的用户密码
         $mailsubject    = $mailsub; //邮件主题
         $mailsubject    = "=?UTF-8?B?" . base64_encode($mailsubject) . "?="; //防止乱码
         $mailbody       = $mailbd; //邮件内容

@@ -39,5 +39,6 @@ Route::post('infodelete', 'InfoController@infodelete')->name('infodelete');
 Route::any('articleview', 'ArticleController@articleview')->name('articleview');
 Route::any('articledetail', 'ArticleController@articledetail')->name('articledetail');
 Route::post('articlenew', 'ArticleController@articlenew')->name('articlenew');
+Route::post('articleinsert', 'ArticleController@articleinsert')->name('articleinsert');
 
 ?>
