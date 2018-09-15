@@ -129,6 +129,7 @@
          <div class="articletitle">
              <p>{{$article->title}}</p>
              <p class="articletitlepart">{{$article->updated_at}}</p>
+             <p class="articletitlepart"><a href="{{url('articleedit?key='.$article->id)}}">编辑 </a></p>
          </div>
          <div class="articlecontent">
              <div>
@@ -141,7 +142,7 @@
        </div>
       
     </div>
-    @else
+    @elseif ($status==4)
     <div id="articlenew">
         <div class="righttitlebox">
         <p class="righttitle"></p>
@@ -186,6 +187,61 @@
                 </div>
             </div>
             <button class="ensurebtn"onclick="submit()">确认</button>
+        </div>
+    </div>
+    @elseif($status==5)
+    <div id="articleupdate">
+        <div class="righttitlebox">
+        <p class="righttitle"></p>
+        </div>
+        <div class="rightcontentbox">
+            <form action="{{route('articleupdate')}}" method="POST" id="updatearticle">
+             <input type="hidden" name="_token" value="{{ csrf_token() }}">
+             <input type="hidden" name="key" value="{{$article->id}}">
+             <input type="hidden" name="author" value="{{$user->name}}">
+             <input type="hidden" name="content" id="contentinput">
+             <p>标题</p>
+             <p><input class="titleinput" type="text" name="title" value="{{$article->title}}" required></p>
+             <p>正文</p>
+            </form>
+            <div class="textedit">
+                <div class="controlarea">
+                        <a href="#" class='' data-command='italic' onclick="changeStyle(this.dataset)">斜体</a>
+                        <a href="#" class='' data-command='bold' onclick="changeStyle(this.dataset)">粗体</a>
+                        <a href="#" class='' data-command='underline' onclick="changeStyle(this.dataset)">下划线</a>
+                        <a href="#" class='' data-command='strikeThrough' onclick="changeStyle(this.dataset)">删除线</a>
+
+                        <a href="#" class='' data-command='justifyLeft' onclick="changeStyle(this.dataset)">左</a>
+                        <a href="#" class='' data-command='justifyCenter' onclick="changeStyle(this.dataset)">居中</a>
+                        <a href="#" class='' data-command='justifyRight' onclick="changeStyle(this.dataset)">右</a>
+                
+            
+                        <a href="#" class='' data-command='indent' onclick="changeStyle(this.dataset)">右缩进</a>
+                        <a href="#" class='' data-command='outdent' onclick="changeStyle(this.dataset)">左缩进</a>
+             
+                        <a href="#" class='' data-command='fontSize' data-value="1" onclick="changeStyle(this.dataset)">1号</a>
+                        <a href="#" class='' data-command='fontSize' data-value="2" onclick="changeStyle(this.dataset)">2号</a>
+                        <a href="#" class='' data-command='fontSize' data-value="3" onclick="changeStyle(this.dataset)">3号</a>
+                        <a href="#" class='' data-command='fontSize' data-value="4" onclick="changeStyle(this.dataset)">4号</a>
+                        <a href="#" class='' data-command='fontSize' data-value="5" onclick="changeStyle(this.dataset)">5号</a>
+             
+             
+                        <a href="#" class='' data-command='undo' onclick="changeStyle(this.dataset)">◀</a>
+                        <a href="#" class='' data-command='redo' onclick="changeStyle(this.dataset)">▶</a>
+               
+                </div>
+                <div class="textarea" contenteditable>
+                     {!!$article->content!!}    
+                </div>
+            </div>
+            <button class="ensurebtn" onclick="delarticle()">删除</button>
+            <button class="ensurebtn" onclick="ensure()">确认</button>
+            <form action="{{ route('articledelete') }}" method="POST" id="deletearticle">
+                <input type="hidden" name="_method" value="DELETE">
+                <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                <input type="hidden" name="key" value="{{$article->id}}">
+                <input type="hidden" name="author" value="{{$article->author}}">
+            </form>  
         </div>
     </div>
     @endif

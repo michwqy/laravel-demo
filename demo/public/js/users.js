@@ -25,3 +25,21 @@
              form.submit();
            }
     }
+
+    function ensure(){
+      var div=document.getElementsByClassName("textarea")[0];
+      var input=document.getElementById("contentinput");
+      input.value=div.innerHTML;
+      input.value=input.value.replace(/[\r\n]/g,"");
+      input.value=input.value.replace(/\ +/g,"");  
+      var title=document.getElementsByClassName("titleinput")[0];
+      var form=document.getElementById("updatearticle");
+      if(!(input.value==""||title.value=="")){
+        form.submit();
+      }
+      }
+
+      function delarticle(){
+        var form=document.getElementById("deletearticle");
+        form.submit();
+      }
