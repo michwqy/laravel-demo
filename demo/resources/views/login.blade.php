@@ -72,11 +72,43 @@
             font-size: 11px;
          }
 
+    .alert{
+     position:absolute;
+     background-color: #1496bb;
+     color:white;
+     font-weight: bold;
+     width:200px;
+     height: 45px;
+     text-align: center;
+     top:0px;
+     left:43%;
+     box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.28);
+   }
+
+   .alerttext{
+     margin-top:10px;
+   }
+
 
 </style>
+<script>
+    function hide(){
+           var box=document.getElementById("alertbox");
+           //box.style.display="none"; 
+           box.style.transition='height 500ms';
+           box.style.overflow='hidden';
+           box.style.height='0';
+           box.style.border='none';
+           }
+          setTimeout("hide()",2000);
+</script>
 @stop
 @section('content')
-
+@if (Session::has('message'))                                             
+    <div id="alertbox" class="alert">                
+      <p class="alerttext">{{Session::get('message')}}</p>                            
+    </div>
+@endif
 <form method="POST" action="{{ route('login') }}">
           {{ csrf_field() }}
 

@@ -43,9 +43,11 @@ class UsersController extends Controller
         <a href='http://localhost:8000/active?token="  .$token . "' target='_blank'>'http://localhost：8000/active.php?token="  .$token . "'</a>
         <br/>如果以上链接无法点击，请将它复制到你的浏览器地址栏中进入访问，该链接24小时内有效。<br/>如果此次激活请求非你本人所发，请忽略本邮件。<br/>";  //邮件内容
         $this->sendmailto($mailto,$subject,$body);
-
-        return redirect()->route('login');
         */
+
+        session()->flash('message','请先去邮箱激活账号');
+        return redirect()->route('login');
+        
 
        
     }
@@ -104,11 +106,7 @@ class UsersController extends Controller
             $to = $email;  
             $message ->to($to)->subject('请激活账号');  
         });  
-        if($flag){  
-            echo '发送邮件成功，请查收！';  
-        }else{  
-            echo '发送邮件失败，请重试！';  
-        }  
+        
     } 
 
     public function active(Request $request){
@@ -122,6 +120,10 @@ class UsersController extends Controller
         if((intval($nowtime)-intval($time))<1){
             $affected = DB::update('update users set status = 1 where email = ?', [$email]);
             if($affected==1){
+                session()->flash('message','激活成功');
+                return redirect()->route('login');
+            }
+            else{
                 return redirect()->route('login');
             }
         }
