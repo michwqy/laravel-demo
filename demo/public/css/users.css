@@ -44,7 +44,21 @@
       background-color: white;
    }
 
+   .alert{
+     position:absolute;
+     background-color: #1496bb;
+     color:white;
+     font-weight: bold;
+     width:200px;
+     height: 45px;
+     text-align: center;
+     top:0px;
+     box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.28);
+   }
 
+   .alerttext{
+     margin-top:10px;
+   }
    .title{
      padding-left:20px;
    }

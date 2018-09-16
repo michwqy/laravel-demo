@@ -14,7 +14,7 @@ class ArticleController extends Controller
     {
         if(Auth::check()){
             if($request->key){
-                $articles=DB::table('articles')->orderBy($request->key, 'asc')->paginate(10);
+                $articles=DB::table('articles')->orderBy($request->key, 'desc')->paginate(10);
                 $key=$request->key;
                 }
             else{
@@ -92,11 +92,16 @@ class ArticleController extends Controller
             $user=Auth::user();
             $users = DB::select('select * from users where email = ?', [$user->email]);
             $user=$users[0];
-
             $articles= DB::select('select * from articles where id = ?', [$request->key]);
             $article=$articles[0];
-            $status=5;
-            return view('users',compact('user','article','status'));
+            if($user->type==1 || ($article->author==$user->name)){
+                $status=5;
+                return view('users',compact('user','article','status'));
+            }
+            else{
+                session()->flash('message','抱歉，您没有权限');
+                return redirect()->route('articleview');
+            }
             }
         else{
             return redirect()->route('login');

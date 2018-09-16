@@ -18,6 +18,8 @@ class UsersController extends Controller
   
     public function store(Request $request)
     {   
+        $this->send($request->name,$request->email);
+        
         $this->validate($request, [
             'name' => 'required|unique:users|max:50',
             'email' => 'required|email|unique:users|max:255',
@@ -30,6 +32,7 @@ class UsersController extends Controller
             'password' => bcrypt($request->password),
         ]);
  
+        /*
         $time=date("ymd");
         $text=$user->email.' '.$time;
         $token=encrypt($text);
@@ -40,11 +43,10 @@ class UsersController extends Controller
         <a href='http://localhost:8000/active?token="  .$token . "' target='_blank'>'http://localhost：8000/active.php?token="  .$token . "'</a>
         <br/>如果以上链接无法点击，请将它复制到你的浏览器地址栏中进入访问，该链接24小时内有效。<br/>如果此次激活请求非你本人所发，请忽略本邮件。<br/>";  //邮件内容
         $this->sendmailto($mailto,$subject,$body);
-        
-           
-       
-         
+
         return redirect()->route('login');
+        */
+
        
     }
 
@@ -92,10 +94,27 @@ class UsersController extends Controller
         $f->sendmail($smtpemailto, $smtpusermail, $mailsubject, $mailbody, $mailtype);
     }
 
+    function send($name,$email)  
+    {   
+        $time=date("ymd");
+        $text=$email.'|'.$time;
+        $token=encrypt($text);
+        $url=url("/active")."?token=".$token;
+        $flag = Mail::send('emails.activeemail',['name'=>$name,'url'=>$url],function($message) use($email){  
+            $to = $email;  
+            $message ->to($to)->subject('请激活账号');  
+        });  
+        if($flag){  
+            echo '发送邮件成功，请查收！';  
+        }else{  
+            echo '发送邮件失败，请重试！';  
+        }  
+    } 
+
     public function active(Request $request){
         $token=$request->token;
         $text=decrypt($token);
-        $texts=explode(' ', $text);
+        $texts=explode('|', $text);
         //$texts=explode(' ', $token);
         $email=$texts[0];
         $time=$texts[1];

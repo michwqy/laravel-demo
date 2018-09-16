@@ -104,7 +104,7 @@
               </th>
               <th><a href="{{ url('articleview?key=author')}}" class="thtext">Author</a>
               </th>
-              <th><a href="{{ url('articleview?key=id')}}" class="thtext">Time</a>
+              <th><a href="{{ url('articleview?key=updated_at')}}" class="thtext">Time</a>
               </th>
               <th class="thdetail">detail</th>
             </tr>
