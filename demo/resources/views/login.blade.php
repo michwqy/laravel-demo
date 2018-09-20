@@ -122,7 +122,7 @@
                     <p><label for="password">密码：</label></p>
                     <p><input type="password" id="password" name="password" class="loginInput"  placeholder="请输入密码" value="{{ old('password') }}" required /></p>
                     <div class="checkbox">
-                       <label class"check"><input type="checkbox" name="remember"> 记住我</label>
+                       <label class ="check" ><input type="checkbox" name="remember"> 记住我</label>
                     </div>
                     </div>
                     
