@@ -91,6 +91,8 @@
 
 
 </style>
+@stop
+@section('js')
 <script>
     function hide(){
            var box=document.getElementById("alertbox");
@@ -123,13 +125,15 @@
                        <label class"check"><input type="checkbox" name="remember"> 记住我</label>
                     </div>
                     </div>
-                    <div  class="logininfo">
-                    @if (Session::has('danger'))                                             
-                    <span >                                          
+                    
+                    @if (Session::has('danger'))   
+                    <div  id= "alertbox" class="alert">                               
+                    <p class="alerttext">                                          
                        {{Session::get('danger')}}                                   
-                    </span>
-                    @endif
+                    </p>
                     </div>
+                    @endif
+                    
                 </div>
                 <div class="loginBoxButtons">
                     

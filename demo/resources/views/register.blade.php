@@ -67,7 +67,35 @@
             background-color:#E8E8E8;
          }
 
+    .alert{
+     position:absolute;
+     background-color: #1496bb;
+     color:white;
+     font-weight: bold;
+     text-align: center;
+     top:0px;
+     left:43%;
+     box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.28);
+   }
+
+   .alerttext{
+     margin:5px 5px 0 5px;
+   }
+
 </style>
+@stop
+@section('js')
+<script>
+    function hide(){
+           var box=document.getElementById("alertbox");
+           //box.style.display="none"; 
+           box.style.transition='height 500ms';
+           box.style.overflow='hidden';
+           box.style.height='0';
+           box.style.border='none';
+           }
+          setTimeout("hide()",2000);
+</script>
 @stop
 @section('content')
 
@@ -91,12 +119,12 @@
           </div>
           
           @if(count($errors) > 0)
-          <div class="info">
-          <ul>
+          <div id="alertbox" class="alert">
+        
           @foreach($errors->all() as $error)
-          <li>{{ $error }}</li>
+          <p class="alerttext">{{ $error }}</p>
           @endforeach
-          </ul>
+    
           </div>
           @endif 
 
